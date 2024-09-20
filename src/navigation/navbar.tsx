@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/input";
+import SearchSymbolsInput from "@/components/SearchSymbolsInput";
 import { Link } from "react-router-dom";
 
 const MainNavbar: React.FC = () => (
@@ -29,9 +29,8 @@ const MainNavbar: React.FC = () => (
 
         {/* Search Input */}
         <div className="ml-4 flex items-center md:ml-6">
-          <Input
-            type="text"
-            placeholder="Search..."
+          <SearchSymbolsInput
+            placeholder="Search Symbols"
             className="w-64"
           />
         </div>

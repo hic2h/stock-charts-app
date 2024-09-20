@@ -1,4 +1,4 @@
-import { QueryFunction } from "@core/types/query";
+import { QueryFunction } from "@/core/types/query";
 
 const formatQuery = ({
   function: queryFunction,

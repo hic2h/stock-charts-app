@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, TypedUseSelectorHook, useSelector } from 'react-redux'
-import { stocksApi } from './services/stocksApi'
-import { companiesApi } from './services/companiesApi'
+import { stocksApi } from '@/core/store/services/stocksApi'
+import { companiesApi } from '@/core/store/services/companiesApi'
 
 export const store = configureStore({
     reducer: {

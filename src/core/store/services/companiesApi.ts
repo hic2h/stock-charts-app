@@ -1,12 +1,12 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import axiosBaseQuery from "@core/store/config/axiosBaseQuery";
-import { QueryFunction } from "@core/types/query";
-import formatQuery from "@core/utils/queryFormatter";
-import { CompanyOverview, SymbolsSearchResult } from "@core/types/companies";
+import axiosBaseQuery from "@/core/store/config/axiosBaseQuery";
+import { QueryFunction } from "@/core/types/query";
+import formatQuery from "@/core/utils/queryFormatter";
+import { CompanyOverview, SymbolsSearchResult } from "@/core/types/companies";
 
 export const companiesApi = createApi({
   reducerPath: "companiesApi",
-  baseQuery: axiosBaseQuery({ baseUrl: "/stocks-api" }),
+  baseQuery: axiosBaseQuery({ baseUrl: import.meta.env.VITE_STOCKS_API_URI }),
   endpoints: (builder) => ({
     symbolSearch: builder.query<SymbolsSearchResult[], string>({
       query: (keyword) => ({
