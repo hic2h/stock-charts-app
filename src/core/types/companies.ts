@@ -19,4 +19,6 @@ export type CompanyOverview = {
   FiscalYearEnd: string;
   OfficialSite: string;
   RevenueTTM: number;
+  DividendPerShare: number;
+  SharesOutstanding: number;
 };

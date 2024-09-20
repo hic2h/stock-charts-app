@@ -29,10 +29,7 @@ const MainNavbar: React.FC = () => (
 
         {/* Search Input */}
         <div className="ml-4 flex items-center md:ml-6">
-          <SearchSymbolsInput
-            placeholder="Search Symbols"
-            className="w-64"
-          />
+          <SearchSymbolsInput />
         </div>
       </div>
     </div>
