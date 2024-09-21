@@ -11,8 +11,8 @@ export const stocksApi = createApi({
     symbolIntradayStock: builder.query<number[][], string>({
       query: (symbol) => ({
         url: formatQuery({
-          function: QueryFunction.SYMBOL_TIME_SERIES_DAILY_ADJUSTED,
-          params: { symbol, outputsize: "full" },
+          function: QueryFunction.SYMBOL_TIME_SERIES_INTRADAY,
+          params: { symbol, outputsize: "full", interval: "5min" },
         }),
         method: "GET",
       }),
@@ -25,7 +25,7 @@ export const stocksApi = createApi({
             "3. low": string;
             "4. close": string;
           };
-        } = response?.["Time Series (Daily)"];
+        } = response?.["Time Series (5min)"];
         const seriesData = Object.entries(stockData).map(([date, values]) => [
           new Date(date).getTime(),
           parseFloat(values?.["1. open"]),
