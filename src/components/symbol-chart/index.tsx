@@ -23,9 +23,13 @@ const SymbolChart: React.FC<SymbolChartProps> = ({ symbol }) => {
       title: {
         text: `${symbol} Stock Price`,
       },
+      rangeSelector: {
+        selected: 2,
+      },
+      xAxis: {},
       series: [
         {
-          type: 'candlestick',
+          type: 'ohlc',
             data: stockData,
             tooltip: {
                 valueDecimals: 2
