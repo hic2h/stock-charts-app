@@ -5,18 +5,17 @@ import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import React from "react";
 
-
 type SymbolChartProps = {
   symbol?: string;
 };
 const SymbolChart: React.FC<SymbolChartProps> = ({ symbol }) => {
-  const [chartOptions, setChartOptions] = React.useState({});
+  const [chartOptions, setChartOptions] = React.useState<Highcharts.Options>({ series: undefined });
   const { data: stockData, isFetching } = useSymbolIntradayStockQuery(symbol || "", {
     skip: !symbol,
   });
 
   React.useEffect(() => {
-    if (!stockData) {
+    if (!stockData || chartOptions.series) {
       return;
     }
 
@@ -27,16 +26,15 @@ const SymbolChart: React.FC<SymbolChartProps> = ({ symbol }) => {
       series: [
         {
           type: 'candlestick',
-          name: `${symbol} Stock Price`,
-          data: stockData,
-          tooltip: {
-            valueDecimals: 2,
-          },
+            data: stockData,
+            tooltip: {
+                valueDecimals: 2
+            }
         },
       ],
     });
   }
-    , [stockData, symbol]);
+    , [chartOptions.series, stockData, symbol]);
 
 
   if (!symbol) {
@@ -58,7 +56,7 @@ const SymbolChart: React.FC<SymbolChartProps> = ({ symbol }) => {
           </div>
         )}
 
-        {stockData && (
+        {chartOptions.series && (
           <HighchartsReact
             highcharts={Highcharts}
             constructorType={'stockChart'}

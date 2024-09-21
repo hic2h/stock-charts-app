@@ -27,6 +27,7 @@ const AboutPage: React.FC = () => {
               <li>Access comprehensive information about selected companies </li>
               <li>Analyze the financial position of any symbol with ease</li>
               <li>View, explore, and understand market trends, with a stock chart visualization.</li>
+              <li>Fully Response</li>
             </ul>
           </section>
           <Separator />
