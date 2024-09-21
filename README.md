@@ -1,50 +1,52 @@
-# React + TypeScript + Vite
+# Stock Charts App v0.0.1
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Built with Vite.js, the Stock Charts App is a user-friendly interactive application that aims to assist users in understanding stock market trends.
 
-Currently, two official plugins are available:
+To run the project on your local machine, clone the repository and follow these commands:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Installation
 
-## Expanding the ESLint configuration
+$ npm install
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+# Serve with hot reload at localhost:3000
 
-- Configure the top-level `parserOptions` property like this:
+$ npm run dev
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+Please remember to add the .env.local file to the root directory of your project before running the app. You’ll want to include a proxied API of the Alpha Vantage API URI in the .env file:
+
+# API URI
+
+VITE_STOCKS_API_URI=YOUR_API_TO_PROXY_WITH_API_KEY
+
+## Supabase Edge Function
+
+I use a simple Supabase Edge Function to rewrite the API calls, attaching the apiKey directly to the request.
+
+Here is the corresponding code I implemented:
+
 ```
+Deno.serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
+  const url = req.url;
+  const { searchParams } = new URL(url + "");
+  const apiUrl = `https://www.alphavantage.co/query?${searchParams.toString()}&apikey=ALPHA_VENTAGE_API_KEY`;
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+  try {
+    const response = await fetch(apiUrl);
+    const data = await response.json();
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+    return new Response(JSON.stringify(data), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 200,
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: error.message }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 400,
+    });
+  }
+});
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
 ```
