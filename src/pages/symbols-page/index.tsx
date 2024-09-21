@@ -41,7 +41,7 @@ const SymbolsPage = () => {
       <h1 className="text-3xl font-bold mb-6">{companyData?.Name} ({companyData?.Symbol})</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <SymbolChart />
+        <SymbolChart symbol={symbol} />
 
         <div className="space-y-6">
           <CompanyDetails companyOverview={companyData} />
